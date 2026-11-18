@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -10,11 +10,21 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
-  // კალათის state ცხოვრობს აქ, რადგან მას რამდენიმე გვერდი იყენებს
-  const [cart, setCart] = useState([]);
+  // lazy initial: localStorage-იდან ერთხელ ვკითხულობთ; || [] ცარიელი კალათისთვის
+  const [cart, setCart] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("cart")) || [];
+    } catch {
+      return []; // თუ შენახული ტექსტი დაზიანებულია
+    }
+  });
+
+  // cart-ის ყოველი ცვლილებისას ვინახავთ
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   function addToCart(product) {
-    // immutable update: ძველი მასივი + ახალი ელემენტი (cart.push არა!)
     setCart([...cart, { ...product, cartId: crypto.randomUUID() }]);
   }
 

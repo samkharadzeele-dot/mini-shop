@@ -11,7 +11,9 @@ export default function Navbar({ cartCount }) {
         <NavLink to="/contact">Contact</NavLink>
       </nav>
 
-      <Link to="/cart" className="navbar__cart">Cart ({cartCount})</Link>
+      <Link to="/cart" className="navbar__cart">
+  Cart (<span key={cartCount} className="navbar__count">{cartCount}</span>)
+</Link>
     </header>
   );
 }

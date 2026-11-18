@@ -137,3 +137,76 @@ img { max-width: 100%; display: block; }
   .cart__row { grid-template-columns: 60px 1fr auto; }
   .cart__remove { grid-column: 2 / 4; justify-self: start; }
 }
+
+.card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeUp 0.5s ease backwards; /* გვერდის ჩატვირთვისას ამოდის */
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(15, 18, 32, 0.12);
+}
+.card__image img { transition: transform 0.4s ease; }
+.card:hover .card__image img { transform: scale(1.08); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ღილაკები: იზრდება მაუსის მიტანისას, პატარავდება დაჭერისას */
+.btn, .card__button, .cart__remove, .chip, .swatch {
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover:not(:disabled),
+.card__button:hover,
+.chip:hover,
+.swatch:hover { transform: scale(1.07); }
+
+.btn:active:not(:disabled),
+.card__button:active { transform: scale(0.95); }
+
+.btn--primary:hover:not(:disabled),
+.card__button:hover { background: #2c32a3; }
+
+/* SALE ნიშანი ციმციმებს */
+.badge { animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* Cart-ის რიცხვი "ხტება" ცვლილებისას */
+.navbar__count { display: inline-block; animation: bump 0.35s ease; }
+@keyframes bump {
+  50% { transform: scale(1.5); color: var(--primary); }
+}
+
+/* Navbar ბმულები */
+.navbar__links a, .navbar__cart { transition: color 0.2s ease, transform 0.2s ease; }
+.navbar__links a:hover, .navbar__cart:hover { color: var(--primary); transform: translateY(-2px); }
+
+/* ფორმა: შეცდომის სტილი + შეძვრა */
+.input--error {
+  border-color: var(--danger) !important;
+  background: #fff5f5;
+  animation: shake 0.3s ease;
+}
+.form__error { color: var(--danger); font-size: 12px; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+
+/* ველის ფოკუსი */
+.form input:focus, .form textarea:focus, .newsletter__form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(27, 31, 94, 0.15);
+}
+
+/* მომხმარებლებს, ვისაც ანიმაცია არ უნდა */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
